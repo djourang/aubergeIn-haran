@@ -1,4 +1,4 @@
-package com.aubergeServlet.fInal.trasationServlets;
+package fInal.trasationServlets;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

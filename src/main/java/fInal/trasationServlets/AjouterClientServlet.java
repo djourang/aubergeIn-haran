@@ -1,8 +1,8 @@
-package com.aubergeServlet.fInal.trasationServlets;
+package fInal.trasationServlets;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
 import AubergeInn.utils.IFT287Exception;
-import com.aubergeServlet.fInal.AubergeHelper;
+import fInal.AubergeHelper;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

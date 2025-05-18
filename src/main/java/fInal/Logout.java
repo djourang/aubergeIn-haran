@@ -1,4 +1,4 @@
-package com.aubergeServlet.fInal;
+package fInal;
 
 import jakarta.servlet.http.HttpServlet;
 

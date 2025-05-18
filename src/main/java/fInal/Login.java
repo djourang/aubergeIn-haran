@@ -1,4 +1,4 @@
-package com.aubergeServlet.fInal;
+package fInal;
 
 import AubergeInn.utils.Connexion;
 import AubergeInn.utils.IFT287Exception;
@@ -7,14 +7,14 @@ import com.mongodb.MongoSecurityException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import jakarta.servlet.ServletContext;
-import org.bson.Document;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.bson.Document;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

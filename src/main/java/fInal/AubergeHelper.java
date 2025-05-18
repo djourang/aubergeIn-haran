@@ -1,4 +1,4 @@
-package com.aubergeServlet.fInal;
+package fInal;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
 import AubergeInn.utils.IFT287Exception;

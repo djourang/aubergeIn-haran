@@ -1,4 +1,4 @@
-package com.aubergeServlet.fInal;
+package fInal;
 
 public class AubergeConstantes {
     public final static int CONNECTE = 0;
