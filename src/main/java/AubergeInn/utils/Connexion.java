@@ -1,93 +1,81 @@
 package AubergeInn.utils;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- * Gestionnaire d'une connexion avec une BD NoSQL via MongoDB.
+ * Gestionnaire d'une connexion avec une base de données relationnelle PostgreSQL.
  *
  * <pre>
  *
  * Vincent Ducharme
  * Université de Sherbrooke
- * Version 1.0 - 18 juin 2016
- * IFT287 - Exploitation de BD relationnelles et OO
+ * Version 2.0 - 2025-05-19
+ * IFT287 - Exploitation de BD relationnelles et orientées objet
  *
- * Ce programme permet d'ouvrir une connexion avec une BD via MongoDB.
+ * Ce programme permet d'ouvrir une connexion avec une base de données PostgreSQL via JDBC.
  *
- * Pre-condition
- *   La base de données MongoDB doit etre accessible.
+ * Précondition :
+ *   La base de données PostgreSQL doit être accessible via le réseau,
+ *   et les identifiants (nom d'utilisateur, mot de passe) doivent être valides.
  *
- * Post-condition
- *   La connexion est ouverte.
+ * Postcondition :
+ *   Une connexion JDBC est établie avec la base de données PostgreSQL.
+ *
  * </pre>
  */
-public class Connexion
-{
-    private MongoClient client;
-    private MongoDatabase database;
 
-    /**
-     * Ouverture d'une connexion
-     *
-     * @param serveur : Le type de serveur SQL à utiliser (Valeur : local, dinf).
-     * @param bd : nom de la base de données
-     * @param user : userid sur le serveur SQL
-     * @param pass : mot de passe sur le serveur SQL
-     */
-    public Connexion(String serveur, String bd, String user, String pass) throws IFT287Exception
-    {
+public class Connexion {
+    private final Connection conn;
 
-        if (serveur.equals("local"))
-        {
-            client = MongoClients.create();
+    public Connexion() throws IFT287Exception, SQLException {
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            String url = "jdbc:postgresql://dpg-d0du4es9c44c73cdp2mg-a.oregon-postgres.render.com:5432/database_3k0t?ssl=true&sslmode=require";
+            String user = "haran";
+            String password = "Yl41kHZphd6vzjnvOyVXYyatqQaQQXLx";
+
+            conn = DriverManager.getConnection(url, user, password);
+            conn.setAutoCommit(false);
+
+            if (conn.getMetaData().supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)) {
+                conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+                System.out.println("✅ Connexion PostgreSQL Render établie (mode sérialisable).");
+            } else {
+                System.out.println("✅ Connexion PostgreSQL Render établie (mode par défaut).");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IFT287Exception("❌ Échec de la connexion à la BD : " + e.getMessage());
         }
-        else if (serveur.equals("dinf"))
-        {
-            String connectionString = "mongodb://" + user + ":" + pass + "@bd-info2.dinf.usherbrooke.ca:27017/" + bd + "?ssl=true";
-            ConnectionString connString = new ConnectionString(connectionString);
-            MongoClientSettings settings = MongoClientSettings.builder()
-                    .applyConnectionString(connString)
-                    .build();
-            client = MongoClients.create(settings);
-        }
-        else
-        {
-            throw new IFT287Exception("Serveur inconnu");
-        }
-
-        database = client.getDatabase(bd);
-
-        System.out.println("Ouverture de la connexion :\n"
-                + "Connecté sur la BD MongoDB "
-                + bd + " avec l'utilisateur " + user);
-    }
-
-    /**
-     * Fermeture d'une connexion
-     */
-    public void fermer() {
-        client.close();
-        System.out.println("Connexion fermée");
     }
 
 
-    /**
-     * retourne la Connection MongoDB
-     */
-    public MongoClient getConnection()
-    {
-        return client;
+
+    public void fermer() throws SQLException {
+        conn.rollback();
+        conn.close();
+        System.out.println("🔒 Connexion fermée.");
     }
 
-    /**
-     * retourne la DataBase MongoDB
-     */
-    public MongoDatabase getDatabase()
-    {
-        return database;
+    public void commit() throws SQLException {
+        conn.commit();
+    }
+
+    public void rollback() throws SQLException {
+        conn.rollback();
+    }
+
+    public void setAutoCommit(boolean mode) throws SQLException {
+        conn.setAutoCommit(mode);
+    }
+
+    public Connection getConnection() {
+        return conn;
     }
 }

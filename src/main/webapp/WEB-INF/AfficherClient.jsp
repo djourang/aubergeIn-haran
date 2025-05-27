@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="AubergeInn.tuples.Client" %>
+<%@ page import="AubergeInn.tuples.LigneClient" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -42,7 +42,7 @@
   <%
     String messageSucces = (String) session.getAttribute("messageSucces");
     String messageErreur = (String) session.getAttribute("messageErreur");
-    Client client = (Client) session.getAttribute("client");
+    LigneClient client = (LigneClient) session.getAttribute("client");
     session.removeAttribute("messageSucces");
     session.removeAttribute("messageErreur");
     session.removeAttribute("client");
@@ -75,10 +75,10 @@
     </thead>
     <tbody>
     <tr>
-      <td><%= client.getM_idClient() %></td>
-      <td><%= client.getM_prenom() %></td>
-      <td><%= client.getM_nom() %></td>
-      <td><%= client.getM_age() %></td>
+      <td><%= client.getidClient() %></td>
+      <td><%= client.getprenom() %></td>
+      <td><%= client.getnom() %></td>
+      <td><%= client.getage() %></td>
     </tr>
     </tbody>
   </table>

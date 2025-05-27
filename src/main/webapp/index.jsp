@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Système de Gestion de l'Auberge</title>
+    <title>Index - Système de Gestion de l'AubergeIn</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/logoTabBord.css">
@@ -25,11 +25,11 @@
         <div class="d-flex justify-content-around mt-4">
             <!-- Formulaire pour la connexion employé -->
             <form method="POST">
-                <input class="btn btn-primary btn-lg" type="submit" value="Connexion Employé" onclick="form.action='transaction?action=Login';">
+                <input class="btn btn-primary btn-lg" type="submit" value="Employé" onclick="form.action='transaction?action=Login';">
             </form>
             <!-- Formulaire pour la connexion client -->
             <form method="POST">
-                <input class="btn btn-success btn-lg" type="submit" value="Connexion Client" onclick="form.action='transaction?action=TableauDeBordClient';">
+                <input class="btn btn-success btn-lg" type="submit" value="Client" onclick="form.action='transaction?action=TableauDeBordClient';">
             </form>
         </div>
     </div>

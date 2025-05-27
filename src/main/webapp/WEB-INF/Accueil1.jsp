@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ page import="com.aubergeServlet.fInal.AubergeHelper, AubergeInn.gestionnaires.GestionObergeInn, AubergeInn.tuples.Client, AubergeInn.tuples.Reservation" %>
+<%@ page import="fInal.AubergeHelper, AubergeInn.gestionnaires.GestionObergeInn, AubergeInn.tuples.LigneClient, AubergeInn.tuples.LigneReservationChambre" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

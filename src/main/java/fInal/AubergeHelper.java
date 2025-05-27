@@ -112,9 +112,9 @@ public class AubergeHelper
         String userIdBD = (String) c.getAttribute("user");
         String pass = (String) c.getAttribute("pass");
 
-        GestionObergeInn aubergeInterrogation = new GestionObergeInn(serveur, bd, userIdBD, pass);
+        GestionObergeInn aubergeInterrogation = new GestionObergeInn();
         s.setAttribute("aubergeInterrogation", aubergeInterrogation);
-        GestionObergeInn aubergeUpdate = new GestionObergeInn(serveur, bd, userIdBD, pass);
+        GestionObergeInn aubergeUpdate = new GestionObergeInn();
         s.setAttribute("aubergeUpdate", aubergeUpdate);
     }
 

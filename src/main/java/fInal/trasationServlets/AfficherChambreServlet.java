@@ -1,7 +1,7 @@
 package fInal.trasationServlets;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
-import AubergeInn.tuples.Chambre;
+import AubergeInn.tuples.LigneChambre;
 import AubergeInn.utils.IFT287Exception;
 import fInal.AubergeHelper;
 import jakarta.servlet.RequestDispatcher;
@@ -31,7 +31,7 @@ public class AfficherChambreServlet extends HttpServlet {
             // Validation et exécution de la transaction
             if (idChambreStr != null) {
                 int idChambre = Integer.parseInt(idChambreStr);
-                Chambre chambre = gestionObergeInn.getGestionChambre().afficherChambre(idChambre);
+                LigneChambre chambre = gestionObergeInn.getGestionChambre().afficherChambre(idChambre);
 
                 if (chambre != null) {
                     // Stocker le résultat dans la session

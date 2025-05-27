@@ -1,14 +1,14 @@
-<%@ page import="AubergeInn.tuples.Chambre" %>
+<%@ page import="AubergeInn.tuples.LigneChambre" %>
 <%@ page import="java.util.List" %>
-<%@ page import="AubergeInn.tuples.Commodite" %><%--
+<%@ page import="AubergeInn.tuples.LigneCommodite" %><%--
   Created by IntelliJ IDEA.
   User: Haran
   Date: 8/16/2024
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="AubergeInn.tuples.Chambre" %>
+<%@ page import="AubergeInn.tuples.LigneChambre" %>
 <%@ page import="java.util.List" %>
-<%@ page import="AubergeInn.tuples.Commodite" %>
+<%@ page import="AubergeInn.tuples.LigneCommodite" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="fr">
@@ -51,7 +51,7 @@
 
 <div class="container mt-4">
     <%
-        List<Chambre> chambresLibres = (List<Chambre>) request.getAttribute("chambresLibres");
+        List<LigneChambre> chambresLibres = (List<LigneChambre>) request.getAttribute("chambresLibres");
         if (chambresLibres != null && !chambresLibres.isEmpty()) {
     %>
     <h2 class="text-center">Chambres Libres</h2>
@@ -68,23 +68,23 @@
         </thead>
         <tbody>
         <%
-            for (Chambre chambre : chambresLibres) {
+            for (LigneChambre chambre : chambresLibres) {
                 double prixTotal = chambre.getM_prixBase();
-                for (Commodite commodite : chambre.getM_commodites()) {
-                    prixTotal += commodite.getsurplusPrix();
+                for (LigneCommodite commodite : chambre.getcommodites()) {
+                    prixTotal += commodite.getSurplusPrix();
                 }
         %>
         <tr>
-            <td><%= chambre.getM_idChambre() %></td>
+            <td><%= chambre.getIdChambre() %></td>
             <td><%= chambre.getM_nomChambre() %></td>
             <td><%= chambre.getM_typeLit() %></td>
             <td>$CAD <%= chambre.getM_prixBase() %></td>
             <td>
                 <ul>
                     <%
-                        for (Commodite commodite : chambre.getM_commodites()) {
+                        for (LigneCommodite commodite : chambre.getcommodites()) {
                     %>
-                    <li><%= commodite.getNom() %> ($CAD <%= commodite.getsurplusPrix() %>)</li>
+                    <li><%= commodite.getdescription() %> ($CAD <%= commodite.getSurplusPrix() %>)</li>
                     <% } %>
                 </ul>
             </td>

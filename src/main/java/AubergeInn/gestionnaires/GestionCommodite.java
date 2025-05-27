@@ -1,33 +1,38 @@
 package AubergeInn.gestionnaires;
 
 
-import AubergeInn.collections.CollectionChambre;
-import AubergeInn.collections.CollectionCommodite;
-import AubergeInn.tuples.Chambre;
-import AubergeInn.tuples.Commodite;
+import AubergeInn.collections.TableChambre;
+import AubergeInn.collections.TableCommodite;
+import AubergeInn.collections.TableInclusionCommodite;
+import AubergeInn.tuples.LigneChambre;
+import AubergeInn.tuples.LigneCommodite;
 import AubergeInn.utils.IFT287Exception;
+
+import java.sql.SQLException;
 
 
 public class GestionCommodite {
 
 
-    CollectionCommodite collectionCommodite;
-    CollectionChambre collectionChambre;
+    TableCommodite collectionCommodite;
+    TableChambre collectionChambre;
+    TableInclusionCommodite collectionInclusionCommodite;
 
-    public GestionCommodite(CollectionCommodite collectionCommodite, CollectionChambre collectionChambre) {
+    public GestionCommodite(TableCommodite collectionCommodite, TableChambre collectionChambre,TableInclusionCommodite collectionInclusionCommodite) {
         this.collectionCommodite = collectionCommodite;
         this.collectionChambre = collectionChambre;
+        this.collectionInclusionCommodite = collectionInclusionCommodite;
     }
 
     /*
     Cette transaction ajoute un nouveau service offert par l'entreprise.
      */
-    public void ajouterCommodite(int idCommodite, String description, double surplusPrix) throws IFT287Exception{
+    public void ajouterCommodite(int idCommodite, String description, double surplusPrix) throws IFT287Exception, SQLException {
         try {
             //verifier si le commodite existe deja
-            if ( collectionCommodite.getCommoditeById(idCommodite)!=null){
+            if ( collectionCommodite.getCommodite(idCommodite)!=null){
                 throw new IFT287Exception("le commodite " + idCommodite + " existe deja");
-            }collectionCommodite.ajouterCommodite(new Commodite(idCommodite,description,surplusPrix));
+            }collectionCommodite.ajouterCommodite(new LigneCommodite(idCommodite,description,surplusPrix));
         }catch (Exception e){
             throw e;
         }
@@ -35,10 +40,10 @@ public class GestionCommodite {
     /*
    Cette transaction ajoute une commodité à une chambre.
     */
-    public void inclureCommodite(int idChambre, int idCommodite) throws IFT287Exception {
+    public void inclureCommodite(int idChambre, int idCommodite) throws IFT287Exception, SQLException {
         try {
-            Chambre chambre = collectionChambre.getChambreById(idChambre);
-            Commodite commodite = collectionCommodite.getCommoditeById(idCommodite);
+            LigneChambre chambre = collectionChambre.getChambre(idChambre);
+            LigneCommodite commodite = collectionCommodite.getCommodite(idCommodite);
             //verifier si la Chambre existe
             if (chambre==null){throw new IFT287Exception("la Chambre " + idChambre +" n'existe pas dans la table Chambre");}
             //verifier si la Commodite exisste
@@ -53,16 +58,16 @@ public class GestionCommodite {
         }
     }
 
-    public void supprimerCommodite(int idCommodite) throws IFT287Exception {
+    public void supprimerCommodite(int idCommodite) throws IFT287Exception, SQLException {
         try
         {
-            // Vérifie si la chambre existe
-            if ((collectionCommodite.getCommoditeById(idCommodite)==null))throw new IFT287Exception("la Commodite : " + idCommodite + " n'existe pas.");
+            // Vérifie si la commodite existe
+            if ((collectionCommodite.getCommodite(idCommodite)==null))throw new IFT287Exception("la Commodite : " + idCommodite + " n'existe pas.");
             //=================================================================================================================================================================================================================>
             //if (!(collectionCommodite.getCommoditeById(idCommodite).estAccommoder()))throw new IFT287Exception("pour supprimer la Commodite assurez-vous qu'il n'eat inclut a aucune Chambre");
             //=================================================================================================================================================================================================================>
             // suprimer la commodite de la collection des Commodite
-            collectionCommodite.supprimerCommodite(collectionCommodite.getCommoditeById(idCommodite));
+            collectionCommodite.supprimerCommodite(collectionCommodite.getCommodite(idCommodite));
             // Commit
 
         }
@@ -72,18 +77,18 @@ public class GestionCommodite {
         }
     }
 
-    public void enleverCommodite(int idChambre, int idCommodite) throws IFT287Exception {
+    public void enleverCommodite(int idChambre, int idCommodite) throws IFT287Exception, SQLException {
         try {
-            Chambre chambre = collectionChambre.getChambreById(idChambre);
-            Commodite commodite = collectionCommodite.getCommoditeById(idCommodite);
+            LigneChambre chambre = collectionChambre.getChambre(idChambre);
+            LigneCommodite commodite = collectionCommodite.getCommodite(idCommodite);
             // verifier que la chambre exisste
             if(chambre==null)throw new IFT287Exception("peux pas enlever une commodite a la Chambre " + idChambre + " qui n'existe pas");
             // verifier que la commodite exisste
             if(commodite==null)throw new IFT287Exception("peux pas enlever la commodite " + idCommodite + " qui n'existe pas");
 
             //verifier si la chambre inclut bien la commondite pour pouvoir l'enlever avec succes
-            if(!chambre.contains(commodite))throw new IFT287Exception("la Chambre " + idChambre + " n'inclus pas la commodite  "+idCommodite);
-            collectionChambre.enleverCommodite(commodite,chambre);
+            if(!chambre.getcommodites().contains(commodite))throw new IFT287Exception("la Chambre " + idChambre + " n'inclus pas la commodite  "+idCommodite);
+            collectionChambre.enleverCommodite(commodite,chambre,collectionInclusionCommodite);
 
 
         }

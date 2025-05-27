@@ -1,7 +1,7 @@
 package fInal.trasationServlets;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
-import AubergeInn.tuples.Chambre;
+import AubergeInn.tuples.LigneChambre;
 import AubergeInn.utils.IFT287Exception;
 import fInal.AubergeHelper;
 import jakarta.servlet.RequestDispatcher;
@@ -37,7 +37,7 @@ public class AfficherChambresLibresServlet extends HttpServlet {
                 Date dateDebut = sdf.parse(dateDebutStr);
                 Date dateFin = sdf.parse(dateFinStr);
 
-                List<Chambre> chambresLibres = gestionObergeInn.getGestionChambre().afficherChambresLibres(dateDebut, dateFin);
+                List<LigneChambre> chambresLibres = gestionObergeInn.getGestionChambre().afficherChambresLibres(dateDebut, dateFin);
 
                 // Stocker le résultat dans la requête
                 request.setAttribute("chambresLibres", chambresLibres);

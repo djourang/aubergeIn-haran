@@ -5,10 +5,7 @@ import AubergeInn.utils.IFT287Exception;
 import AubergeInn.utils.Securite;
 import fInal.AubergeConstantes;
 import fInal.AubergeHelper;
-import com.mongodb.MongoSecurityException;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -16,10 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,119 +27,111 @@ public class LoginClient extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<String> listeMessageErreur = new LinkedList<>();
+
         try {
             System.out.println("Servlet LoginClient : POST");
 
-            // Lecture des paramètres du formulaire index.jsp
+            // 1. Lire les paramètres
             String userIdBD = request.getParameter("userIdBD");
             String motDePasseBD = request.getParameter("motDePasseBD");
             String serveur = request.getParameter("serveur");
             String bd = request.getParameter("bd");
 
-            // Validation des paramètres
-            if (userIdBD == null || userIdBD.equals("")) {
-                throw new IFT287Exception("Vous devez entrer un nom d'utilisateur de la base de données.");
-            }
-
-            if (motDePasseBD == null || motDePasseBD.equals("")) {
-                throw new IFT287Exception("Vous devez entrer un mot de passe de la base de données.");
-            }
-
-            if (serveur == null || serveur.equals("")) {
-                throw new IFT287Exception("Vous devez choisir un serveur.");
-            }
-
-            if (bd == null || bd.equals("")) {
+            // 2. Validation
+            if (userIdBD == null || userIdBD.isEmpty())
+                throw new IFT287Exception("Vous devez entrer un nom d'utilisateur.");
+            if (motDePasseBD == null || motDePasseBD.isEmpty())
+                throw new IFT287Exception("Vous devez entrer un mot de passe.");
+            if (serveur == null || serveur.isEmpty())
+                throw new IFT287Exception("Vous devez entrer un nom de serveur.");
+            if (bd == null || bd.isEmpty())
                 throw new IFT287Exception("Vous devez entrer un nom de base de données.");
-            }
+
+            // 3. Connexion à PostgreSQL
+            Connexion connexion = new Connexion();
+            Connection sqlConn = connexion.getConnection();
 
             try {
-                // Tentative de connexion à la base de données MongoDB
-                Connexion connexion = new Connexion(serveur, bd, userIdBD, motDePasseBD);
-
-                // Hachage du mot de passe
+                // 4. Hachage du mot de passe
                 String motDePasseHash = Securite.toHexString(Securite.getSHA(motDePasseBD));
 
-                // Accéder à la base de données
-                MongoDatabase database = connexion.getDatabase();
+                // 5. Vérifier si l'utilisateur existe
+                PreparedStatement stmtCheck = sqlConn.prepareStatement(
+                        "SELECT * FROM utilisateur WHERE username = ?"
+                );
+                stmtCheck.setString(1, userIdBD);
+                ResultSet rs = stmtCheck.executeQuery();
 
-                // Créer une collection "user" si elle n'existe pas
-                if (!database.listCollectionNames().into(new LinkedList<>()).contains("user")) {
-                    database.createCollection("user");
+                if (!rs.next()) {
+                    // L'utilisateur n'existe pas → l'insérer
+                    PreparedStatement stmtInsert = sqlConn.prepareStatement(
+                            "INSERT INTO utilisateur(username, password, role) VALUES (?, ?, ?)"
+                    );
+                    stmtInsert.setString(1, userIdBD);
+                    stmtInsert.setString(2, motDePasseHash);
+                    stmtInsert.setString(3, "CLIENT");
+                    stmtInsert.executeUpdate();
+                    stmtInsert.close();
                 }
 
-                // Récupérer la collection "user"
-                MongoCollection<Document> userCollection = database.getCollection("user");
+                rs.close();
+                stmtCheck.close();
 
-                // Vérifier si l'utilisateur existe déjà
-                Document existingUser = userCollection.find(Filters.eq("username", userIdBD)).first();
-
-                if (existingUser == null) {
-                    // Si l'utilisateur n'existe pas, l'ajouter
-                    Document newUser = new Document("username", userIdBD)
-                            .append("password", motDePasseHash)
-                            .append("role", "CLIENT");
-                    userCollection.insertOne(newUser);
-                }
-
-                // Stocker les informations de connexion dans le contexte de l'application
+                // 6. Stocker les infos dans le contexte
                 ServletContext context = getServletContext();
                 context.setAttribute("serveur", serveur);
                 context.setAttribute("bd", bd);
                 context.setAttribute("user", userIdBD);
                 context.setAttribute("pass", motDePasseBD);
 
-                // Créer les gestionnaires
+                // 7. Créer les gestionnaires
                 HttpSession session = request.getSession();
                 AubergeHelper.creerGestionnaire(context, session);
 
-                // Stocker les informations utilisateur dans la session
+                // 8. Stocker dans session
                 session.setAttribute("etat", AubergeConstantes.CONNECTE);
                 session.setAttribute("bd", bd);
                 session.setAttribute("role", "CLIENT");
 
-                // Rediriger vers le tableau de bord client
+                // 9. Rediriger
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/TableauDeBordClient.jsp");
                 dispatcher.forward(request, response);
 
-                // Fermeture de la connexion après redirection
+                // 10. Fermer la connexion
                 connexion.fermer();
 
-            } catch (MongoSecurityException e) {
-                List<String> listeMessageErreur = new LinkedList<>();
-                listeMessageErreur.add("Erreur d'authentification : Veuillez vérifier votre nom d'utilisateur et mot de passe.");
-                request.setAttribute("listeMessageErreur", listeMessageErreur);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
-                e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
-                List<String> listeMessageErreur = new LinkedList<>();
-                listeMessageErreur.add("Erreur lors du hachage du mot de passe : " + e.getMessage());
-                request.setAttribute("listeMessageErreur", listeMessageErreur);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
-                e.printStackTrace();
+                listeMessageErreur.add("Erreur de hachage : " + e.getMessage());
+                redirigerAvecErreur(request, response, listeMessageErreur);
+            } catch (SQLException e) {
+                listeMessageErreur.add("Erreur SQL : " + e.getMessage());
+                redirigerAvecErreur(request, response, listeMessageErreur);
             } catch (Exception e) {
-                List<String> listeMessageErreur = new LinkedList<>();
                 listeMessageErreur.add("Erreur inattendue : " + e.getMessage());
-                request.setAttribute("listeMessageErreur", listeMessageErreur);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
-                e.printStackTrace();
+                redirigerAvecErreur(request, response, listeMessageErreur);
             }
+
         } catch (IFT287Exception e) {
-            List<String> listeMessageErreur = new LinkedList<>();
             listeMessageErreur.add(e.getMessage());
-            request.setAttribute("listeMessageErreur", listeMessageErreur);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-            dispatcher.forward(request, response);
-            e.printStackTrace();
+            redirigerAvecErreur(request, response, listeMessageErreur);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
+    private void redirigerAvecErreur(HttpServletRequest request, HttpServletResponse response, List<String> erreurs)
+            throws ServletException, IOException {
+        request.setAttribute("listeMessageErreur", erreurs);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(request, response);
+    }
+
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         System.out.println("Servlet LoginClient : GET");
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);

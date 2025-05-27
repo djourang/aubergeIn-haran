@@ -47,7 +47,7 @@
   <!-- Déclaration des servlets pour AubergeInn -->
   <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.Login</servlet-class>
+    <servlet-class> fInal.Login</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -55,7 +55,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>Accueil</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.Accueil</servlet-class>
+    <servlet-class> fInal.Accueil</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Accueil</servlet-name>
@@ -63,7 +63,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>Inscription</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.Inscription</servlet-class>
+    <servlet-class> fInal.Inscription</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Inscription</servlet-name>
@@ -71,7 +71,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AjouterClient</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.AjouterClientServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.AjouterClientServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AjouterClient</servlet-name>
@@ -79,7 +79,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>TableauDeBord</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.TableauDeBord</servlet-class>
+    <servlet-class> fInal.TableauDeBord</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>TableauDeBord</servlet-name>
@@ -87,7 +87,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>SupprimerClient</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.SupprimerClientServlet</servlet-class>
+    <servlet-class>fInal.trasationServlets.SupprimerClientServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SupprimerClient</servlet-name>
@@ -95,7 +95,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>TransactionRedirectServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.Transaction</servlet-class>
+    <servlet-class>fInal.trasationServlets.Transaction</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>TransactionRedirectServlet</servlet-name>
@@ -103,7 +103,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AjouterChambreServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.AjouterChambreServlet</servlet-class>
+    <servlet-class>fInal.trasationServlets.AjouterChambreServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AjouterChambreServlet</servlet-name>
@@ -111,7 +111,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>InclureCommoditeServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.InclureCommoditeServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.InclureCommoditeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>InclureCommoditeServlet</servlet-name>
@@ -119,7 +119,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AfficherChambresLibresServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.AfficherChambresLibresServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.AfficherChambresLibresServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AfficherChambresLibresServlet</servlet-name>
@@ -127,7 +127,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>EnleverCommoditeServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.EnleverCommoditeServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.EnleverCommoditeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>EnleverCommoditeServlet</servlet-name>
@@ -135,7 +135,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AjouterCommoditeServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.AjouterCommoditeServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.AjouterCommoditeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AjouterCommoditeServlet</servlet-name>
@@ -143,7 +143,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AfficherChambreServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.AfficherChambreServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.AfficherChambreServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AfficherChambreServlet</servlet-name>
@@ -151,7 +151,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AfficherClientServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.AfficherClientServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.AfficherClientServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AfficherClientServlet</servlet-name>
@@ -159,7 +159,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>ReserverServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.ReserverServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.ReserverServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ReserverServlet</servlet-name>
@@ -167,7 +167,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>SupprimerChambreServlet</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.SupprimerChambreServlet</servlet-class>
+    <servlet-class> fInal.trasationServlets.SupprimerChambreServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SupprimerChambreServlet</servlet-name>
@@ -175,7 +175,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>LoginClient</servlet-name>
-    <servlet-class>com.aubergeServlet.fInal.trasationServlets.LoginClient</servlet-class>
+    <servlet-class> fInal.trasationServlets.LoginClient</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginClient</servlet-name>

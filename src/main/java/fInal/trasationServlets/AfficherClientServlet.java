@@ -1,7 +1,7 @@
 package fInal.trasationServlets;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
-import AubergeInn.tuples.Client;
+import AubergeInn.tuples.LigneClient;
 import AubergeInn.utils.IFT287Exception;
 import fInal.AubergeHelper;
 import jakarta.servlet.RequestDispatcher;
@@ -31,7 +31,7 @@ public class AfficherClientServlet extends HttpServlet {
             // Validation et exécution de la transaction
             if (idClientStr != null) {
                 int idClient = Integer.parseInt(idClientStr);
-                Client client = gestionObergeInn.getGestionClient().afficherClient(idClient);
+                LigneClient client = gestionObergeInn.getGestionClient().afficherClient(idClient);
 
                 if (client != null) {
                     // Stocker le résultat dans la session

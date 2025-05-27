@@ -96,7 +96,7 @@ public class Accueil extends HttpServlet
                     GestionObergeInn aubergeUpdate = AubergeHelper.getaubergeUpdate(session);
                     synchronized (aubergeUpdate)
                     {
-                        aubergeUpdate.getGestionMembre().inscrire(userId, motDePasseSHA, acces, nom, prenom, email, role, telephone);
+                       // aubergeUpdate.getGestionMembre().inscrire(userId, motDePasseSHA, acces, nom, prenom, email, role, telephone);
                     }
 
                     // Mise à jour de la session si nécessaire

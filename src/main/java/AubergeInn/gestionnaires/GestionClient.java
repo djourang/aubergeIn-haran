@@ -1,12 +1,13 @@
 package AubergeInn.gestionnaires;
 
-import AubergeInn.collections.CollectionChambre;
-import AubergeInn.collections.CollectionClient;
-import AubergeInn.collections.CollectionReservation;
-import AubergeInn.tuples.Client;
+import AubergeInn.collections.TableChambre;
+import AubergeInn.collections.TableClient;
+import AubergeInn.collections.TableReservationChambre;
+import AubergeInn.tuples.LigneClient;
 import AubergeInn.utils.Connexion;
 import AubergeInn.utils.IFT287Exception;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ import java.util.List;
 public class GestionClient {
 
     private final Connexion connexion;
-    private final CollectionClient clients;
-    private final CollectionChambre chambres; //(ex: pour la suppression on aura besoin)
-    private final CollectionReservation reservations;
+    private final TableClient clients;
+    private final TableChambre chambres; //(ex: pour la suppression on aura besoin)
+    private final TableReservationChambre reservations;
 
-    public GestionClient(CollectionChambre collectionChambre, CollectionClient collectionClient, CollectionReservation tableReservationChambre) throws IFT287Exception {
+    public GestionClient(TableChambre collectionChambre, TableClient collectionClient, TableReservationChambre tableReservationChambre) throws IFT287Exception {
         this.connexion = collectionClient.getConnexion();
         this.clients = collectionClient;
         if (collectionClient.getConnexion() != tableReservationChambre.getConnexion()) {
@@ -32,13 +33,14 @@ public class GestionClient {
     /*
     Cette transaction ajoute un nouveau client au système.
      */
-    public void ajouterClient(int idClient, String prenom, String nom, int age) throws IFT287Exception {
+    public void ajouterClient(int idClient, String prenom, String nom, int age) throws IFT287Exception, SQLException {
         try {
             // Vérifie si le client existe déja
-            if (!(clients.getClientById(idClient) == null))
+            if (!(clients.getClient(idClient) == null))
                 throw new IFT287Exception("Le client : " + idClient + " existe deja.");
             // Ajout du client dans le document Client
-            clients.ajouterClient(new Client(idClient, prenom, nom, age));
+            clients.ajouterClient(new LigneClient(idClient, prenom, nom, age));
+
         } catch (Exception e) {
 
             throw e;
@@ -48,9 +50,9 @@ public class GestionClient {
     /*
     Cette transaction supprime un client s'il n'a pas de réservation en cours.
      */
-    public void supprimerClient(int idClient) throws IFT287Exception {
+    public void supprimerClient(int idClient) throws IFT287Exception, SQLException {
         try {
-            Client client = clients.getClientById(idClient);
+            LigneClient client = clients.getClient(idClient);
             // Vérifie si le client n'existe pas
             if (client == null) {
                 throw new IFT287Exception("Le client : " + idClient + " n'existe pas.");
@@ -71,16 +73,13 @@ public class GestionClient {
     Cette transaction affiche toutes les informations sur un client, incluant les réservations
     présentes et passées. Les réservations contiennent le prix total de la réservation, sans les taxes.
      */
-    public Client afficherClient(int idClient) throws IFT287Exception {
+    public LigneClient afficherClient(int idClient) throws IFT287Exception, SQLException {
         try {
-
-
             // Vérifie que le client existe bien
-            if (clients.getClientById(idClient) == null)
+            if (clients.getClient(idClient) == null)
                 throw new IFT287Exception("Le client : " + idClient + " n'existe pas.");
             return clients.afficherClient(idClient);
             // Commit
-
         } catch (Exception e) {
 
             throw e;
@@ -90,23 +89,12 @@ public class GestionClient {
     /**
      * Retourne la liste des clients qui ont des réservations en cours.
      */
-    public List<Client> getListeClientsAvecReservations() throws IFT287Exception {
-        List<Client> clientsAvecReservations = new ArrayList<>();
+    public List<LigneClient> getListeClientsAvecReservations() throws IFT287Exception {
         try {
-            // Récupère tous les clients
-            List<Client> tousLesClients = clients.getAllLesClients();
-
-            // Parcourt tous les clients et ajoute ceux qui ont une réservation en cours à la liste
-            for (Client client : tousLesClients) {
-                if (!reservations.clientSansResrvation(client)) {
-                    clientsAvecReservations.add(client);
-                }
-            }
-        } catch (Exception e) {
+            return clients.getClientsAvecReservations();
+        } catch (SQLException e) {
             throw new IFT287Exception("Erreur lors de la récupération des clients avec réservations : " + e.getMessage());
         }
-
-        return clientsAvecReservations;
     }
 
 
