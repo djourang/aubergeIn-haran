@@ -7,17 +7,17 @@
  #
 
 
-# Étape 1 : on part d'une image officielle Tomcat
+# Étape 1 : build avec Maven
+FROM maven:3.8.5-openjdk-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package
+
+# Étape 2 : déploiement dans Tomcat
 FROM tomcat:9.0
-
-# Étape 2 : supprimer les applications par défaut de Tomcat
 RUN rm -rf /usr/local/tomcat/webapps/*
-
-# Étape 3 : copier ton fichier WAR dans le dossier ROOT
-COPY target/Final-1.0.war /usrs/haran/tomcat/
-# Étape 4 : exposer le port 8080 (par défaut pour Tomcat)
+COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
 
-# Étape 5 : lancer Tomcat
-CMD ["catalina.sh", "run"]
 

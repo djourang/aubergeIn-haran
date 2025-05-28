@@ -1,0 +1,80 @@
+body {
+    background: url('../images/LogoAubergeInn517.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: #2C2C2C;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #0C968F;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.form-control {
+    border: 2px solid #3AA7A2;
+    border-radius: 5px;
+    background-color: #FDFEFC;
+    color: #2C2C2C;
+}
+
+.form-control:focus {
+    border-color: #2DA29C;
+    box-shadow: 0 0 5px rgba(0, 150, 143, 0.5);
+}
+
+.btn-primary {
+    background-color: #0C968F;
+    border-color: #0C968F;
+    color: #FFFFFF;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #FCE420;
+    color: #000000;
+}
+
+.btn-outline-light {
+    color: #3AA7A2;
+    border-color: #3AA7A2;
+    border-radius: 5px;
+}
+
+.btn-outline-light:hover {
+    background-color: #3AA7A2;
+    color: #FFFFFF;
+}
+
+.navbar {
+    background-color: #2DA29C;
+    border-bottom: 3px solid #0C968F;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.alert {
+    background-color: #FCE420;
+    color: #2C2C2C;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu {
+    background-color: #FDFEFC;
+    border: 2px solid #3AA7A2;
+}
+
+.dropdown-item-text {
+    color: #2C2C2C;
+}
