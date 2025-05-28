@@ -11,26 +11,21 @@
 FROM maven:3.9-eclipse-temurin-20 AS builder
 WORKDIR /app
 
-# Copier le projet
 COPY pom.xml .
 COPY src ./src
 
-# Compiler le projet
 RUN mvn clean package --no-transfer-progress
 
-# Étape 2 : Image Tomcat 10.1.11 officielle
-FROM tomcat:10.1.11-jdk20-temurin
+# Étape 2 : Image Tomcat 10.1.41 avec JDK 21
+FROM tomcat:10.1.41-jdk21-temurin
 
-# Supprimer les apps par défaut
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copier le WAR compilé dans ROOT
 COPY --from=builder /app/target/Final-1.0.war /usr/local/tomcat/webapps/ROOT.war
 
-# Exposer le port
 EXPOSE 8080
-
 CMD ["catalina.sh", "run"]
+
 
 
 
