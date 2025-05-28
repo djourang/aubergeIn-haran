@@ -7,17 +7,17 @@
  #
 
 
-# Étape 1 : build avec Maven
+# Étape 1 : Compiler le projet avec Maven
 FROM maven:3.8.5-openjdk-17 AS builder
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package
 
-# Étape 2 : déploiement dans Tomcat
+# Étape 2 : Déployer le fichier WAR dans Tomcat
 FROM tomcat:9.0
 RUN rm -rf /usr/local/tomcat/webapps/*
-COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=builder /app/target/Final-1.0.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
 
 
