@@ -1,10 +1,14 @@
 package fInal.trasationServlets;
 
+import AubergeInn.gestionnaires.GestionObergeInn;
+import AubergeInn.utils.Connexion;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -12,9 +16,7 @@ public class Transaction extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
         String page = null;
-
         // rediriction vers la page correspondante
         if ("ajouterClient".equals(action)) {
             page = "/WEB-INF/AjouterClient.jsp";
@@ -52,7 +54,15 @@ public class Transaction extends HttpServlet {
             page = "/WEB-INF/loginClient.jsp";
         } else if ("TableauDeBordClient".equals(action)) {
             page = "/WEB-INF/TableauDeBordClient.jsp";
-        } else {
+        }else if ("initClient".equals(action)) {
+            if (!initClient(request, response)) return;
+            page = "/WEB-INF/TableauDeBordClient.jsp";
+        }
+        else if ("initEmploye".equals(action)) {
+            if (!initEmploye(request, response)) return;
+            page = "/WEB-INF/Login.jsp";
+        }
+        else {
             page = "/WEB-INF/MessageErreur.jsp";
         }
 
@@ -68,4 +78,60 @@ public class Transaction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
+
+    private boolean initClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext context = getServletContext();
+        if (context.getAttribute("serveur") == null) {
+            try {
+                Connexion cx = new Connexion();
+                context.setAttribute("serveur", cx);
+
+                HttpSession session = request.getSession(true);
+                GestionObergeInn gUpdate = new GestionObergeInn(cx);
+
+                session.setAttribute("aubergeUpdate", gUpdate);
+
+                session.setAttribute("etat", "CONNECTE");
+                session.setAttribute("role", "CLIENT");
+
+
+            } catch (Exception e) {
+                request.setAttribute("messageErreur", "Erreur de connexion à la BD : " + e.getMessage());
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/MessageErreur.jsp");
+                dispatcher.forward(request, response);
+                return false;
+            }
+        }
+
+        return true;
+    }
+    private boolean initEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext context = getServletContext();
+        if (context.getAttribute("serveur") == null) {
+            try {
+                Connexion cx = new Connexion();
+                context.setAttribute("serveur", cx);
+
+                HttpSession session = request.getSession(true);
+                GestionObergeInn gUpdate = new GestionObergeInn(cx);
+                GestionObergeInn gInterro = new GestionObergeInn(cx);
+
+                session.setAttribute("aubergeUpdate", gUpdate);
+                session.setAttribute("aubergeInterrogation", gInterro);
+
+                session.setAttribute("etat", "CONNECTE");
+                session.setAttribute("role", "ADMIN");
+            } catch (Exception e) {
+                request.setAttribute("messageErreur", "Erreur de connexion à la BD (Employé) : " + e.getMessage());
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/MessageErreur.jsp");
+                dispatcher.forward(request, response);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
 }

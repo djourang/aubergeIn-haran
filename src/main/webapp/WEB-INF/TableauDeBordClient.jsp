@@ -18,33 +18,54 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
-        <i class="fas fa-home"></i>
-    </a>
-    <div class="collapse navbar-collapse justify-content-center">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Accueil" onclick="form.action='transaction?action=accueil';">
-                </form>
-            </li>
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Découvrir Auberge" onclick="form.action='transaction?action=decouvrirAuberge';">
-                </form>
-            </li>
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Consulter Chambres" onclick="form.action='transaction?action=consulterChambres';">
-                </form>
-            </li>
-        </ul>
-    </div>
-    <div class="navbar-text text-white">
-        <form action="LoginClient" method="POST">
-            <button class="btn btn-success" type="submit">Connexion Client</button>
-        </form>
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-2 px-4 border-bottom">
+    <div class="container-fluid">
+        <!-- Logo / Home -->
+        <a class="navbar-brand text-dark" href="#">
+            <i class="fas fa-home fa-lg"></i>
+        </a>
+        <!-- Bouton hamburger -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain"
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Contenu masqué sur petits écrans -->
+        <div class="collapse navbar-collapse justify-content-between" id="navbarMain">
+            <!-- Partie gauche -->
+            <div class="d-flex flex-wrap align-items-center">
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-phone-alt"></i> 1 819 943 8870
+                </span>
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-comments"></i> Chat with us
+                </span>
+
+                <div class="dropdown mx-3">
+                    <a class="nav-link dropdown-toggle text-dark p-0" href="#" id="langDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-globe"></i> English
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="#">English</a>
+                        <a class="dropdown-item" href="#">Français</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partie droite -->
+            <div class="d-flex flex-wrap align-items-center">
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-bed"></i> My stays
+                </span>
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-user-plus"></i> Join for free
+                </span>
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-sign-in-alt"></i> Sign in
+                </span>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -63,7 +84,7 @@
         </div>
         <div class="col-md-4">
             <form action="transaction" method="POST">
-                <input class="btn btn-primary btn-block mb-3" type="submit" value="Consulter Chambres" onclick="form.action='transaction?action=consulterChambres';">
+                <input class="btn btn-primary btn-block mb-3" type="submit" value="Consulter Chambres" onclick="form.action='transaction?action=afficherChambresLibres';">
             </form>
         </div>
         <div class="col-md-4">

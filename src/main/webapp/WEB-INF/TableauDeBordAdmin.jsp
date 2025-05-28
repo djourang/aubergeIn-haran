@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Haran
   Date: 8/18/2024
@@ -18,53 +18,68 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
-        <i class="fas fa-home"></i>
-    </a>
-    <div class="collapse navbar-collapse justify-content-center">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Dashboard" onclick="form.action='transaction?action=dashboard';">
-                </form>
-            </li>
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Ajouter Client" onclick="form.action='transaction?action=ajouterClient';">
-                </form>
-            </li>
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Ajouter Chambre" onclick="form.action='transaction?action=ajouterChambre';">
-                </form>
-            </li>
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Ajouter Commodité" onclick="form.action='transaction?action=ajouterCommodite';">
-                </form>
-            </li>
-            <li class="nav-item">
-                <form action="transaction" method="POST">
-                    <input class="btn btn-outline-light nav-link" type="submit" value="Réserver" onclick="form.action='transaction?action=reserver';">
-                </form>
-            </li>
-        </ul>
-    </div>
-    <div class="navbar-text text-white">
-        <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle" type="button" id="connectionStatus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-check-circle"></i> Connecté
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="connectionStatus">
-                <form action="logout.jsp" method="post">
-                    <button class="btn btn-danger btn-block mb-2" type="submit">Déconnexion</button>
-                </form>
-                <h6 class="dropdown-header">Informations de Connexion</h6>
-                <p class="dropdown-item-text"><strong>État :</strong> Connecté</p>
-                <p class="dropdown-item-text"><strong>Type de BD :</strong> MongoDB</p>
-                <p class="dropdown-item-text"><strong>Nom de la BD :</strong> <%= (String) session.getAttribute("bd") %></p>
-                <p class="dropdown-item-text"><strong>Utilisateur :</strong> <%= (String) session.getAttribute("userIdBD") %></p>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-2 px-4 border-bottom">
+    <div class="container-fluid">
+        <!-- Logo / Home -->
+        <a class="navbar-brand text-dark" href="#">
+            <i class="fas fa-home fa-lg"></i>
+        </a>
+        <!-- Bouton hamburger -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain"
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Contenu masqué sur petits écrans -->
+        <div class="collapse navbar-collapse justify-content-between" id="navbarMain">
+            <!-- Partie gauche -->
+            <div class="d-flex flex-wrap align-items-center">
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-phone-alt"></i> 1 819 943 8870
+                </span>
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-comments"></i> Chat with us
+                </span>
+
+                <div class="dropdown mx-3">
+                    <a class="nav-link dropdown-toggle text-dark p-0" href="#" id="langDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-globe"></i> English
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="#">English</a>
+                        <a class="dropdown-item" href="#">Français</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partie droite -->
+            <div class="d-flex flex-wrap align-items-center">
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-bed"></i> My stays
+                </span>
+                <span class="mx-3 text-dark">
+                    <i class="fas fa-user-plus"></i> Join for free
+                </span>
+
+                <!-- Bloc connexion remplaçant "Sign in" -->
+                <div class="dropdown mx-3">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="connectionStatus"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-check-circle"></i> Connecté
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="connectionStatus">
+                        <form action="logout.jsp" method="post">
+                            <button class="btn btn-danger btn-block mb-2" type="submit">Déconnexion</button>
+                        </form>
+                        <h6 class="dropdown-header">Informations de Connexion</h6>
+                        <p class="dropdown-item-text"><strong>État :</strong> Connecté</p>
+                        <p class="dropdown-item-text"><strong>Type de BD :</strong> PostGre render</p>
+                        <p class="dropdown-item-text"><strong>Nom de la BD :</strong> <%= session.getAttribute("bd") %></p>
+                        <p class="dropdown-item-text"><strong>Utilisateur :</strong> <%= session.getAttribute("serveur") %></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -72,10 +87,9 @@
 
 <div class="container mt-4">
     <div class="alert alert-info" role="alert">
-        Bonjour, Vous êtes connecté à <strong>MongoDB</strong> (<%= (String) session.getAttribute("bd") %>).
+        Bonjour, Vous êtes connecté à <strong>Postgre de render</strong> (<%= (String) session.getAttribute("bd") %>).
     </div>
 </div>
-
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-4">

@@ -1,11 +1,12 @@
-<%@ page import="AubergeInn.tuples.LigneChambre" %>
-<%@ page import="java.util.List" %>
-<%@ page import="AubergeInn.tuples.LigneCommodite" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Haran
   Date: 8/16/2024
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="AubergeInn.tuples.LigneChambre" %>
+<%@ page import="java.util.List" %>
+<%@ page import="AubergeInn.tuples.LigneCommodite" %>
 <%@ page import="AubergeInn.tuples.LigneChambre" %>
 <%@ page import="java.util.List" %>
 <%@ page import="AubergeInn.tuples.LigneCommodite" %>
@@ -42,7 +43,7 @@
                     <input class="btn btn-primary btn-block" type="submit" value="Afficher Chambres Libres">
                 </div>
                 <div class="col-md-6">
-                    <a href="transaction?action=dashboard" class="btn btn-secondary btn-block">Annuler</a>
+                    <a href="transaction?action=afficherChambresLibres" class="btn btn-secondary btn-block">Annuler</a>
                 </div>
             </div>
         </form>

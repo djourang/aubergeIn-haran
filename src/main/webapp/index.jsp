@@ -23,13 +23,13 @@
     <div class="col-md-6 offset-md-3 mt-5">
         <h3 class="text-center">Veuillez choisir votre type de connexion :</h3>
         <div class="d-flex justify-content-around mt-4">
-            <!-- Formulaire pour la connexion employé -->
-            <form method="POST">
-                <input class="btn btn-primary btn-lg" type="submit" value="Employé" onclick="form.action='transaction?action=Login';">
+            <form action="transaction" method="POST">
+                <input type="hidden" name="action" value="initEmploye">
+                <input class="btn btn-primary" type="submit" value="Employé">
             </form>
-            <!-- Formulaire pour la connexion client -->
-            <form method="POST">
-                <input class="btn btn-success btn-lg" type="submit" value="Client" onclick="form.action='transaction?action=TableauDeBordClient';">
+            <form action="transaction" method="POST">
+                <input type="hidden" name="action" value="initClient">
+                <input class="btn btn-success" type="submit" value="Client">
             </form>
         </div>
     </div>

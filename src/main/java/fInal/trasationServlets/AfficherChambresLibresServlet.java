@@ -24,6 +24,7 @@ public class AfficherChambresLibresServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> listeMessageErreur = new LinkedList<>();
         try {
+
             HttpSession session = request.getSession();
             GestionObergeInn gestionObergeInn = AubergeHelper.getaubergeUpdate(session);
 

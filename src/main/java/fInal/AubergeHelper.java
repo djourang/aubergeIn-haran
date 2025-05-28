@@ -1,6 +1,7 @@
 package fInal;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
+import AubergeInn.utils.Connexion;
 import AubergeInn.utils.IFT287Exception;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
@@ -107,14 +108,15 @@ public class AubergeHelper
 
     public static void creerGestionnaire(ServletContext c, HttpSession s) throws Exception
     {
-        String serveur = (String) c.getAttribute("serveur");
-        String bd = (String) c.getAttribute("bd");
-        String userIdBD = (String) c.getAttribute("user");
-        String pass = (String) c.getAttribute("pass");
+// Création réelle de la connexion JDBC via ta classe Connexion
+        Connexion cx = new Connexion();
 
-        GestionObergeInn aubergeInterrogation = new GestionObergeInn();
-        s.setAttribute("aubergeInterrogation", aubergeInterrogation);
-        GestionObergeInn aubergeUpdate = new GestionObergeInn();
+        // Stocker dans le contexte si tu veux la réutiliser ailleurs
+        c.setAttribute("serveur", cx);
+
+        // Créer les gestionnaires avec la connexion
+
+        GestionObergeInn aubergeUpdate = new GestionObergeInn(cx);
         s.setAttribute("aubergeUpdate", aubergeUpdate);
     }
 

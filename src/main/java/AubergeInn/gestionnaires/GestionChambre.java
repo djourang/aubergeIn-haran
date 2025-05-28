@@ -69,46 +69,29 @@ public class GestionChambre {
         return chambre;
     }
 
-    //    public void afficherChambresLibres(Date dateDebut, Date dateFin) throws SQLException, ParseException, IFT287Exception {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-//
-//        try {
-//            //verifier si la date de debut > a la date de fin
-//            if (!dateDebut.before(dateFin)) throw new IFT287Exception("La date de debut ["+ dateDebut + "] est avant la date de fin ["+dateFin+"]");
-//            //verifier que la date de debut n'eset pas une date passer
-//            Date currentDate = new Date();
-//            if (dateFin.after(currentDate)) throw new IFT287Exception("La date de debut "+ dateDebut + " est une date passer "+dateFin);
-//            tableReservationChambre.afficherChambresLibres(new java.sql.Date(dateDebut.getTime()),new java.sql.Date(dateFin.getTime()));
-//            connexion.commit();
-//        }catch (Exception e){
-//            connexion.rollback();
-//            throw e;
-//        }
-//
-//    }
-    /*
-    Cette transaction affiche toutes les chambres qui sont disponibles entre ces 2 dates. La date de
-    début est celle d'arrivée, et la date de fin est celle de départ (ex. une chambre libre du 29 au
-    30 mars est libre la nuit entre le 29 et le 30 mars, et ne l'est pas nécessairement le 30 au soir).
-    L'affichage doit inclure le prix de location de la chambre (prix de base, plus les commodités).
-     */
     public List<LigneChambre> afficherChambresLibres(Date dateDebut, Date dateFin) throws Exception
     {
+        List<LigneChambre> listChambresLibre = null;
         try
         {
             //verifier si la date de debut > a la date de fin
             if (!dateDebut.before(dateFin)) throw new IFT287Exception("La date de debut ["+ dateDebut + "] est avant la date de fin ["+dateFin+"]");
             //verifier que la date de debut n'eset pas une date passer
             Date currentDate = new Date();
-            if (dateFin.after(currentDate)) throw new IFT287Exception("La date de debut "+ dateDebut + " est une date passer "+dateFin);
-            tableReservationChambre.afficherChambresLibres(new java.sql.Date(dateDebut.getTime()),new java.sql.Date(dateFin.getTime()));
+            if (dateDebut.before(currentDate)) {
+                dateDebut = currentDate;
+            }
+            if (dateFin.before(dateDebut)) {
+                throw new IFT287Exception("La date de fin " + dateFin + " est antérieure à la date de début " + dateDebut);
+            }
+            listChambresLibre = tableReservationChambre.afficherChambresLibres(new java.sql.Date(dateDebut.getTime()),new java.sql.Date(dateFin.getTime()));
         }
         catch (Exception e)
         {
             connexion.rollback();
             throw e;
         }
-        return List.of();
+        return listChambresLibre;
     }
 
     /*

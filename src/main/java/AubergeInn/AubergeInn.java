@@ -1,6 +1,7 @@
 package AubergeInn;
 
 import AubergeInn.gestionnaires.GestionObergeInn;
+import AubergeInn.utils.Connexion;
 import AubergeInn.utils.IFT287Exception;
 
 import java.io.*;
@@ -15,12 +16,11 @@ public class AubergeInn {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println("🔌 Connexion à la base PostgreSQL Render...");
 
         AubergeInn auberge = null;
         try {
-            // 🔧 Connexion sans paramètre : Render par défaut
-            gestionObergeInn = new GestionObergeInn();
+            //  Connexion sans paramètre : Render par défaut
+            gestionObergeInn = new GestionObergeInn(new Connexion());
 
 
             BufferedReader reader = ouvrirFichier(args);

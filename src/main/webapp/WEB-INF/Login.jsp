@@ -8,12 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 
-<%
-    if(request.getServletContext().getAttribute("serveur") != null)
-    {%>
-<jsp:forward page="/login.jsp" />
-<%}
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,8 +39,8 @@
             <div class="form-group">
                 <label for="serveur">Serveur</label>
                 <select class="custom-select" name="serveur">
-                    <option value="local" <%= (request.getAttribute("serveur") != null ? (((String)request.getAttribute("serveur")).equals("local") ? "selected" : "") : "") %>>local
-                    <option value="dinf" <%= (request.getAttribute("serveur") != null ? (((String)request.getAttribute("serveur")).equals("dinf") ? "selected" : "") : "selected") %>>dinf
+                    <option value="admin" <%= (request.getAttribute("serveur") != null ? (((String)request.getAttribute("serveur")).equals("admin") ? "selected" : "") : "") %>>admin
+                    <option value="haran" <%= (request.getAttribute("serveur") != null ? (((String)request.getAttribute("serveur")).equals("haran") ? "selected" : "") : "selected") %>>haran
                 </select>
             </div>
             <div class="form-group">

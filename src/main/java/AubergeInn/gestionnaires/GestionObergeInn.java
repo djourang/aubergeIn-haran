@@ -25,8 +25,8 @@ public class GestionObergeInn {
 
 
 
-    public GestionObergeInn() throws Exception {
-            this.connexion = new Connexion();
+    public GestionObergeInn(Connexion cx) throws Exception {
+            this.connexion = cx;
             this.collectionClient = new TableClient(connexion);
             this.collectionChambre = new TableChambre(connexion);
             this.collectionCommodite = new TableCommodite(connexion);
@@ -45,11 +45,6 @@ public class GestionObergeInn {
     }
 
 
-
-
-//    private void setGestionMembre(GestionMembre gestionMembre) {
-//        this.gestionMembre=gestionMembre;
-//    }
 
 
     public Connexion getConnexion() {

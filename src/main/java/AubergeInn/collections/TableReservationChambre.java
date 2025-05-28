@@ -82,33 +82,6 @@ public class TableReservationChambre {
     }
 
 
-//    public void afficherChambresLibres(Date dateDebut, Date dateFin) throws SQLException {
-//
-//        // Définir les paramètres de la requête
-//        stmtChambreLibre.setDate(1, dateFin);
-//        stmtChambreLibre.setDate(2, dateDebut);
-//        ResultSet rs = stmtChambreLibre.executeQuery();
-//
-//            // Traitement des résultats
-//            while (rs.next()) {
-//                int idChambre = rs.getInt("idChambre");
-//                String nomChambre = rs.getString("nomChambre");
-//                double prixBase = rs.getDouble("prixBase");
-//                double surplusPrix = rs.getDouble("surplusPrix");
-
-//                double prixTotal = prixBase + surplusPrix;
-//
-//                System.out.println("\nChambre ID: " + idChambre);
-//                System.out.println("Nom Chambre: " + nomChambre);
-//                System.out.println("Prix de Base: " + prixBase);
-//                System.out.println("Prix de s Commodites: " + surplusPrix);
-//                System.out.println("Prix Total: " + prixTotal);
-//                System.out.println("---------------------------");
-//        }
-//        rs.close();
-//
-//    }
-
     public List<LigneChambre> afficherChambresLibres(Date dateDebut, Date dateFin) throws SQLException {
         // Définir les paramètres de la requête
         stmtChambreLibre.setDate(1, dateFin);
@@ -125,11 +98,6 @@ public class TableReservationChambre {
             listeChambres.add(tupleChambre);
         }
         rset.close();
-        if (!(listeChambres.size() > 0))
-            System.out.println("Aucune chambre libre");
-        for (LigneChambre ch : listeChambres) {
-            ch.afficher();
-        }
         return listeChambres;
     }
     public List<LigneReservationChambre> getReservationChambre(int idChambre) throws SQLException {
