@@ -34,9 +34,9 @@ public class Connexion {
     public Connexion() throws IFT287Exception, SQLException {
         try {
             Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://dpg-d0du4es9c44c73cdp2mg-a.oregon-postgres.render.com:5432/database_3k0t?ssl=true&sslmode=require";
-            String user = "haran";
-            String password = "Yl41kHZphd6vzjnvOyVXYyatqQaQQXLx";
+            String url = "jdbc:postgresql://dpg-d11rcb49c44c73fl43rg-a.oregon-postgres.render.com:5432/haran?ssl=true&sslmode=require";
+            String user = "haran_user";
+            String password = "WgBuFY3e28uP18mzSO9tHzOaIPxLI4lU";
 
             conn = DriverManager.getConnection(url, user, password);
             conn.setAutoCommit(false);

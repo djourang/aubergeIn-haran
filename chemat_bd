@@ -1,0 +1,44 @@
+CREATE TABLE "client" (
+                          idClient INTEGER,
+                          prenom VARCHAR(255) NOT NULL,
+                          nom VARCHAR(255) NOT NULL,
+                          age INTEGER,
+                          CONSTRAINT cp1_client PRIMARY KEY (idClient)
+);
+CREATE TABLE Chambre (
+                         idChambre INTEGER,
+                         nomChambre VARCHAR(255) NOT NULL,
+                         typeLit VARCHAR(255) NOT NULL,
+                         prixBase NUMERIC(15, 2) NOT NULL,
+                         CONSTRAINT cp1_Chambre PRIMARY KEY (idChambre)
+);
+CREATE TABLE Commodite (
+                           idCommodite INTEGER,
+                           description VARCHAR(255) NOT NULL,
+                           surplusPrix NUMERIC(15, 2) NOT NULL,
+                           CONSTRAINT cp1_Commodite PRIMARY KEY (idCommodite)
+);
+CREATE TABLE reservationChambre (
+                                    idReservation SERIAL,
+                                    idClient INTEGER NOT NULL,
+                                    idChambre INTEGER NOT NULL,
+                                    dateDebut date NOT NULL,
+                                    dateFin date NOT NULL,
+                                    CONSTRAINT cp1_reservationChambre PRIMARY KEY (idReservation),
+                                    CONSTRAINT cr1_reservationChambre FOREIGN KEY (idClient) REFERENCES "client"(idClient),
+                                    CONSTRAINT cr2_reservationChambre FOREIGN KEY (idChambre) REFERENCES Chambre(idChambre),
+                                    CONSTRAINT date_contrainte CHECK (dateDebut < dateFin)
+);
+CREATE TABLE InclusionCommodite (
+                                  idCommodite INTEGER,
+                                  idChambre INTEGER,
+                                  CONSTRAINT cp1_InclusionCommodite PRIMARY KEY (idCommodite, idChambre),
+                                  CONSTRAINT cr1_InclusionCommodite FOREIGN KEY (idCommodite) REFERENCES Commodite(idCommodite),
+                                  CONSTRAINT cr2_InclusionCommodite FOREIGN KEY (idChambre) REFERENCES Chambre(idChambre)
+);
+
+
+
+
+
+

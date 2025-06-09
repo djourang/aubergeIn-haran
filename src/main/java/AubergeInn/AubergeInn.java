@@ -6,6 +6,7 @@ import AubergeInn.utils.IFT287Exception;
 
 import java.io.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class AubergeInn {
@@ -155,11 +156,13 @@ public class AubergeInn {
     }
 
     static Date readDate(StringTokenizer tokenizer) throws Exception {
+
         if (!tokenizer.hasMoreTokens()) throw new Exception("Paramètre date manquant");
         try {
             return Date.valueOf(tokenizer.nextToken());
         } catch (IllegalArgumentException e) {
             throw new Exception("Date invalide (format attendu : AAAA-MM-JJ)");
         }
+
     }
 }
